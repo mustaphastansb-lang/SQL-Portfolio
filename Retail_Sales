@@ -59,7 +59,7 @@ JOIN products AS p
 ON o.product_id = p.product_id
 GROUP BY p.product_name
 ORDER BY total_revenue DESC
-LIMIT 1;
+LIMIT 2;
 
 Question 2:Which customers are repeat customers, and how much have they spent in total?
 SELECT 

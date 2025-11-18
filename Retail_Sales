@@ -1,0 +1,87 @@
+1.CREATE TABLES
+
+CREATE TABLE customers (
+    customer_id INT PRIMARY KEY,
+    customer_name VARCHAR(50),
+    city VARCHAR(50),
+    state VARCHAR(20)
+);
+
+CREATE TABLE products (
+    product_id INT PRIMARY KEY,
+    product_name VARCHAR(50),
+    category VARCHAR(30),
+    price DECIMAL(6,2)
+);
+CREATE TABLE orders (
+    order_id INT PRIMARY KEY,
+    customer_id INT,
+    product_id INT,
+    quantity INT,
+    order_date DATE
+
+2. INSERT DATA 
+
+INSERT INTO customers VALUES
+(1,'Samuel Jackson','Seattle','WA'),
+(2,'Lebron James ','Los Angeles','CA'),
+(3,'Myles Garret','Houston','TX'),
+(4,'James Johnson','Chicago','IL'),
+(5,'Olivia Rodrigo','New York','NY');
+
+INSERT INTO products VALUES
+(101,'iPhone 14','Electronics',799.99),
+(102,'Samsung TV 55"','Electronics',429.99),
+(103,'Nike Air Max','Footwear',129.99),
+(104,'Dell Laptop','Computers',999.99),
+(105,'AirPods','Electronics',159.99);
+
+INSERT INTO orders VALUES
+(1001,1,101,1,'2024-01-05'),
+(1002,2,105,2,'2024-01-07'),
+(1003,3,103,1,'2024-01-09'),
+(1004,4,102,1,'2024-02-01'),
+(1005,1,105,3,'2024-02-03'),
+(1006,5,104,1,'2024-02-10'),
+(1007,3,101,1,'2024-03-02'),
+(1008,5,105,2,'2024-03-05'),
+(1009,2,103,1,'2024-03-07'),
+(1010,4,104,1,'2024-03-13');
+
+Analysis Quieries:
+
+Question 1: Which product generated the highest total revenue?
+SELECT 
+   p.product_name,
+   SUM(o.quantity * p.price) AS total_revenue
+FROM orders AS o
+JOIN products AS p
+ON o.product_id = p.product_id
+GROUP BY p.product_name
+ORDER BY total_revenue DESC
+LIMIT 1;
+
+Question 2:Which customers are repeat customers, and how much have they spent in total?
+SELECT 
+    c.customer_name,
+    COUNT(o.order_id) AS total_orders,
+    SUM(o.quantity * p.price) AS total_spent
+FROM orders AS o
+JOIN customers AS c
+ON o.customer_id = c.customer_id
+JOIN products AS p
+ON o.product_id = p.product_id
+GROUP BY c.customer_name
+HAVING COUNT(o.order_id) > 1
+ORDER BY total_spent DESC;
+
+Question 3. What city is generating the most revenue 
+SELECT 
+    c.city,
+    SUM(o.quantity * p.price) AS total_revenue
+FROM orders AS o
+JOIN customers AS c ON o.customer_id = c.customer_id
+JOIN products AS p ON o.product_id = p.product_id
+GROUP BY c.city
+ORDER BY total_revenue DESC
+LIMIT 1;

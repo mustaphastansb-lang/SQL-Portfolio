@@ -5,7 +5,7 @@ Welcome to my SQL portfolio. This repository showcases SQL queries and mini proj
 SUMMARY OF INSIGHTS:
 
 
-#Retail_Sales Projects
+#Retail_Sales Project
 
 
 Q1: The iPhone 14 and AirPods were the top two revenue generating products, showing strong demand for high value and accessory electronics.
